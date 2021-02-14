@@ -1,4 +1,3 @@
-import errno
 import json
 import socket
 import threading
@@ -25,19 +24,13 @@ class TcpServer:
 
         def recv_data(self, client_socket):
 
-            try:
-
-                self.headersProcess.headers = client_socket.recv(self.headersProcess.LANGTH_HEADERS)
-
-                print("type data", self.headersProcess.type_data)
-                self.headersProcess.data = client_socket.recv(self.headersProcess.len_data)
-
-                # print("data", self.headersProcess.data)
-            except socket.error as e:
+            self.headersProcess.headers = client_socket.recv(self.headersProcess.LANGTH_HEADERS)
 
 
+            print("type header", self.headersProcess.type_data)
+            self.headersProcess.data = client_socket.recv(self.headersProcess.len_data)
+            # print("data", self.headersProcess.data)
 
-                print("disconnect log ", e)
 
         def handle_client_connection(self, client_socket):
 
@@ -50,7 +43,7 @@ class TcpServer:
             while True:
 
                 self.recv_data(client_socket)
-                ts = {"ts": SensorDataProcess.current_milli_time()}
+                ts = {"ts":SensorDataProcess.current_milli_time()}
                 if self.headersProcess.id_sensor in self.list_sensors_send_coomend_read_raw_data and self.headersProcess.isRawData:
                     ts = self.list_sensors_send_coomend_read_raw_data[self.headersProcess.id_sensor]
                 self.dict_allSensor_by_id[self.headersProcess.id_sensor] = client_socket
@@ -58,7 +51,7 @@ class TcpServer:
 
                     id_socket, data = processData.process_data(ts)
 
-                    if self.headersProcess.type_data == "end_of_pac" and id_socket in self.list_sensors_send_coomend_read_raw_data:
+                    if self.headersProcess.type_data == "end_of_pac":
                         del self.list_sensors_send_coomend_read_raw_data[id_socket]
 
                     if id_socket not in self.list_sensors_send_coomend_read_raw_data:
@@ -70,7 +63,7 @@ class TcpServer:
                 else:
                     fer = self.function_process_data_to_view()
 
-        def send_to_sensor(self, ids_sensor: list, data: str, read_sensor_raw_data_in_secods=None):
+        def send_to_sensor(self, ids_sensor: list, data: str,read_sensor_raw_data_in_secods=None):
             if read_sensor_raw_data_in_secods:
                 for i in ids_sensor:
                     if i not in self.list_sensors_send_coomend_read_raw_data:
