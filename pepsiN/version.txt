@@ -1,0 +1,15 @@
+
+
+Build on 30 July 2020 Version 1.1
+-Add get Raw Data Packet
+-print incoming packets info to console
+ 
+ 
+ Build on 03 Aug 2020 , Version 1.2
+-Add support for sending commands from File to sensors.
+ 
+ 
+ Build on 9 Aug 2020 , Version 1.3
+-GUI Changes
+-Add Read Delay prints to "Packets Data" prints.
+ 
