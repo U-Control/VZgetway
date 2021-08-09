@@ -3,6 +3,6 @@ chardet==3.0.4
 idna==2.8
 requests==2.22.0
 urllib3==1.25.8
-pywin32==300
+pywin32==301
 pyserial==3.4
 jproperties==2.1.0
